@@ -27,6 +27,11 @@ app.post('/webhook', function (req, res) {
         if (event.message && event.message.text) {
 		    console.log("Message : " + event.message.text);
 			
+			if(event.message.metadata && event.message.metadata.ad_id){
+				
+				firstMessage(event.sender.id);
+			}
+			
 			if(event.message.text == 'Start Register'){
 				sendMessage(event.sender.id, {text:"Hi, Thanks for join with us, get some special offers from us. We will let you know later"});
 			}
@@ -48,9 +53,7 @@ app.post('/webhook', function (req, res) {
 			//}		
 		}
 		
-		if(event.message.metadata.ad_id){
-			firstMessage(event.sender.id);
-		}
+		
 		
 		
     }
