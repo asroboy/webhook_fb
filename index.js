@@ -28,8 +28,7 @@ app.post('/webhook', function (req, res) {
 		    console.log("Message : " + event.message.text);
 			
 			if(event.message.metadata && event.message.metadata.ad_id){
-				
-				firstMessage(event.sender.id);
+				firstMessage(event.recipient.id);
 			}
 			
 			if(event.message.text == 'Start Register'){
