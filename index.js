@@ -48,6 +48,10 @@ app.post('/webhook', function (req, res) {
 			//}		
 		}
 		
+		if(event.message.metadata.ad_id){
+			firstMessage(event.sender.id);
+		}
+		
 		
     }
     res.sendStatus(200);
