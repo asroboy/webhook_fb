@@ -121,11 +121,7 @@ function firstMessage(recipientId) {
             }
         ]
     };
-    
             sendMessage(recipientId, message);
-            
- 
-    
 };
 
 // generic function sending messages
@@ -146,7 +142,6 @@ function sendMessage(recipientId, message) {
         }
     });
 };
-
 
 // generic function sending messages
 function sendMessagePostback(recipientId, message) {
