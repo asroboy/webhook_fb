@@ -94,7 +94,7 @@ function firstMessage(recipientId) {
                 "elements": [
                     {
                         "title": "Hi, Welcome. Start connect with us by click Start Register",
-                        "image_url": "https://scontent-sit4-1.xx.fbcdn.net/v/t31.0-8/15370091_288768228185042_154848204352437861_o.jpg?oh=81a87532129113625cf49337cd4abed4&oe=58F44B90",
+                        "image_url": "https://scontent.fcgk3-1.fna.fbcdn.net/v/t1.0-9/15894936_1301428949901024_4691059827047571022_n.png?_nc_eui2=v1%3AAeE0CkNLVy1JEhFgLmiYSOkkUVDaHZy9INGg8OlKSja08N9_avV4hF150cqulHrTUTReIsrTN-zu_3mj2y5l86oN1Bw1NbdlnV8JuQN6FOxyjtZr85zWDp1ciOnZGtTo4Fw&oh=49af5a2c1f62b2e96c2c2ecffb09c669&oe=58FE9BCC",
                         "subtitle": "",
                         "buttons": [
                          //   {
