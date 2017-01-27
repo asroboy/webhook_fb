@@ -126,7 +126,7 @@ function firstMessage(recipientId) {
 
 // generic function sending messages
 function sendMessage(recipientId, message) {
-	console.log('process : ' + process);
+	console.log(process);
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
@@ -146,6 +146,7 @@ function sendMessage(recipientId, message) {
 
 // generic function sending messages
 function sendMessagePostback(recipientId, message) {
+	console.log(process);
     request({
         url: 'https://graph.facebook.com/v2.6/me/messaging_postbacks',
         qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
