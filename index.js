@@ -32,11 +32,13 @@ app.post('/webhook', function (req, res) {
 			}
 			
 			if(event.message.text == 'Start Register'){
-				sendMessage(event.sender.id, {text:"Hi, Thanks for join with us, get some special offers from us. We will let you know later"});
+				sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
+			}else{
+				sendMessage(event.sender.id, {text:"Hi, Thanks for sending us message"});
 			}
 			if(event.message.quick_replies){
 				if(event.message.quick_replies.payload == 'REGISTER_PAYLOAD'){
-					sendMessage(event.sender.id, {text:"Hi, Thanks for join with us, get some special offers from us. We will let you know later"});
+					sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
 				}else{
 					firstMessage(event.sender.id);
 				}
@@ -126,7 +128,7 @@ function firstMessage(recipientId) {
 
 // generic function sending messages
 function sendMessage(recipientId, message) {
-	console.log(process);
+	//console.log(process);
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
@@ -146,7 +148,7 @@ function sendMessage(recipientId, message) {
 
 // generic function sending messages
 function sendMessagePostback(recipientId, message) {
-	console.log(process);
+	//console.log(process);
     request({
         url: 'https://graph.facebook.com/v2.6/me/messaging_postbacks',
         qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
