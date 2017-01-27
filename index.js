@@ -93,7 +93,7 @@ function firstMessage(recipientId) {
                 "template_type": "generic",
                 "elements": [
                     {
-                        "title": "Be the first 1,000 registered to get a gift blessed by H.H. The 18th Dromtug Rinpoche",
+                        "title": "Hi, Welcome. Start connect with us by click Start Register",
                         "image_url": "https://scontent-sit4-1.xx.fbcdn.net/v/t31.0-8/15370091_288768228185042_154848204352437861_o.jpg?oh=81a87532129113625cf49337cd4abed4&oe=58F44B90",
                         "subtitle": "",
                         "buttons": [
