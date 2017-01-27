@@ -126,6 +126,7 @@ function firstMessage(recipientId) {
 
 // generic function sending messages
 function sendMessage(recipientId, message) {
+	console.log('process : ' + process);
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
