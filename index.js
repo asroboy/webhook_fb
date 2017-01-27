@@ -48,15 +48,12 @@ app.post('/webhook', function (req, res) {
 		if(event.postback){
 			//firstMessage(event.sender.id);
 			if(event.postback.payload == 'Start Chat'){
-			//	sendMessage(event.sender.id, "Hi, Thanks for join with us, get some special offers from us. We will let you know later");
-			//}else{
-			//	firstMessage(event.sender.id);
+				firstMessage(event.sender.id);
 			}	
+			
 			if(event.postback.payload == 'REGISTER_PAYLOAD'){
 					sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
-				}else{
-					firstMessage(event.sender.id);
-				}			
+			}	
 		}
 		
 		
@@ -100,11 +97,11 @@ function firstMessage(recipientId) {
                         "image_url": "https://scontent-sit4-1.xx.fbcdn.net/v/t31.0-8/15370091_288768228185042_154848204352437861_o.jpg?oh=81a87532129113625cf49337cd4abed4&oe=58F44B90",
                         "subtitle": "",
                         "buttons": [
-                            {
-                                "type": "web_url",
-                                "url": "https://www.facebook.com/12th-International-Buddhas-Relics-Exhibition-288150161580182/",
-                                "title": "View Website"
-                            },
+                         //   {
+                          //      "type": "web_url",
+                           //     "url": "https://www.facebook.com/12th-International-Buddhas-Relics-Exhibition-288150161580182/",
+                          //      "title": "View Website"
+                         //   },
                             {
                                 "type": "postback",
                                 "title": "Start Register",
@@ -116,11 +113,11 @@ function firstMessage(recipientId) {
             }
         },
         "quick_replies": [
-            {
-                "content_type": "text",
-                "title": "View Website",
-                "payload": "VIEW_WEBSITE"
-            },
+           // {
+          //      "content_type": "text",
+          //      "title": "View Website",
+           //     "payload": "VIEW_WEBSITE"
+           // },
             {
                 "content_type": "text",
                 "title": "Start Register",
