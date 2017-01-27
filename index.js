@@ -46,12 +46,17 @@ app.post('/webhook', function (req, res) {
         }
 		
 		if(event.postback){
-			firstMessage(event.sender.id);
-			//if(event.postback.payload == 'REGISTER_PAYLOAD'){
+			//firstMessage(event.sender.id);
+			if(event.postback.payload == 'Start Chat'){
 			//	sendMessage(event.sender.id, "Hi, Thanks for join with us, get some special offers from us. We will let you know later");
 			//}else{
 			//	firstMessage(event.sender.id);
-			//}		
+			}	
+			if(event.postback.payload == 'REGISTER_PAYLOAD'){
+					sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
+				}else{
+					firstMessage(event.sender.id);
+				}			
 		}
 		
 		
