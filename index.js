@@ -36,7 +36,7 @@ app.post('/webhook', function (req, res) {
 					console.log('call api');
 					console.log(data);
 					res.send('OK');
-				},'html');
+				});
 			}else if(event.message.text == 'Start Register'){
 				sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
 			}
