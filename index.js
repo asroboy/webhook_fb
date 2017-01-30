@@ -31,11 +31,13 @@ app.post('/webhook', function (req, res) {
 				firstMessage(event.recipient.id);
 			}
 			
-			var request_key = event.message.text;
-			var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+event.reciever.id+'&request_key='+request_key;
+			
 			if(event.message.text == 'Start Register'){
 				sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
 			}else{
+				var request_key = event.message.text;
+				var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+event.recipient.id+'&request_key='+request_key;
+				
 				request({
 					url: url,
 					method: 'GET'
