@@ -49,7 +49,14 @@ app.post('/webhook', function (req, res) {
 					}else{
 						var obj = JSON.parse(body);
 						console.log('json: ', obj);
-						sendMessage(event.sender.id, obj.jsonData);
+						var code = obj.code;
+						if(code == 1){
+								sendMessage(event.sender.id, obj.data.jsonData);
+						}
+						if(code == 0){
+								sendMessage(event.sender.id, {"text" : "Sorry I don't undertand what do you want"});
+						}
+					
 					}
 				});
 			}
