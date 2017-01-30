@@ -37,7 +37,7 @@ app.post('/webhook', function (req, res) {
 					//  qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
 					method: 'GET'
 				}, function(error, response, body) {
-					console.log('response: ', response);
+					console.log('response: ', body);
 					if (error) {
 						console.log('Error sending message: ', error);
 					} else if (response.body.error) {
