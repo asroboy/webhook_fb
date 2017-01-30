@@ -31,8 +31,11 @@ app.post('/webhook', function (req, res) {
 				firstMessage(event.recipient.id);
 			}
 			
-			if(event.message.text === 'information'){
-				 request({
+			if(event.message.text == 'Start Register'){
+				sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
+			}
+			else{
+				request({
 					url: 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id=964173390293250&request_key=information',
 					//  qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
 					method: 'GET'
@@ -49,12 +52,6 @@ app.post('/webhook', function (req, res) {
 						sendMessage(event.sender.id, obj.jsonData);
 					}
 				});
-				
-			}else if(event.message.text == 'Start Register'){
-				sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
-			}
-			else{
-				sendMessage(event.sender.id, {text:"Hi, Thanks for sending us message"});
 			}
 			if(event.message.quick_replies){
 				if(event.message.quick_replies.payload == 'REGISTER_PAYLOAD'){
