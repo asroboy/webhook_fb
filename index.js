@@ -34,7 +34,7 @@ app.post('/webhook', function (req, res) {
 			if(event.message.text === 'information'){
 				app.get('http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id=964173390293250&request_key=information',function(req,res) {
 					console.log('call api');
-					console.log(data);
+					console.log(res);
 					res.send('OK');
 				});
 			}else if(event.message.text == 'Start Register'){
