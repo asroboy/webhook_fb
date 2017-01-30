@@ -32,11 +32,19 @@ app.post('/webhook', function (req, res) {
 			}
 			
 			if(event.message.text === 'information'){
-				app.get('http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id=964173390293250&request_key=information',function(req,res) {
-					console.log('call api');
-					console.log('response : ' + res);
-					res.send('OK');
+				 request({
+					url: 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id=964173390293250&request_key=information',
+					//  qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
+					method: 'GET'
+				}, function(error, response, body) {
+					console.log('response: ', response);
+					if (error) {
+						console.log('Error sending message: ', error);
+					} else if (response.body.error) {
+						console.log('Error: ', response.body.error);
+					}
 				});
+				
 			}else if(event.message.text == 'Start Register'){
 				sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
 			}
@@ -63,7 +71,7 @@ app.post('/webhook', function (req, res) {
 			}	
 		}
     }
-   // res.sendStatus(200);
+    res.sendStatus(200);
 });
 
 
