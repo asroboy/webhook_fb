@@ -38,12 +38,15 @@ app.post('/webhook', function (req, res) {
 					method: 'GET'
 				}, function(error, response, body) {
 					
-					var obj = JSON.parse(body);
-					console.log('json: ', obj);
+					
 					if (error) {
 						console.log('Error sending message: ', error);
 					} else if (response.body.error) {
 						console.log('Error: ', response.body.error);
+					}else{
+						var obj = JSON.parse(body);
+						console.log('json: ', obj);
+						sendMessage(event.sender.id, obj.jsonData);
 					}
 				});
 				
