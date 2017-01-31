@@ -73,7 +73,7 @@ app.post('/webhook', function (req, res) {
 			//firstMessage(event.sender.id);
 			//if(event.postback.payload == 'Start Chat'){
 				//firstMessage(event.sender.id);
-			}	
+			//}	
 			
 			//if(event.postback.payload == 'REGISTER_PAYLOAD'){
 				getResponseToUser(event.postback.payload, event.sender.id, event.recipient.id);
