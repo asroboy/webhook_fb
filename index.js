@@ -32,9 +32,7 @@ app.post('/webhook', function (req, res) {
 			}
 			
 			
-			if(event.message.text == 'Start Register'){
-				sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
-			}else{
+			if(event.message.text){
 				var request_key = event.message.text;
 				var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+event.recipient.id+'&request_key='+request_key;
 				
@@ -54,7 +52,7 @@ app.post('/webhook', function (req, res) {
 								sendMessage(event.sender.id, obj.data.jsonData);
 						}
 						if(code == 0){
-								sendMessage(event.sender.id, {"text" : "Sorry I don't undertand what do you want"});
+								sendMessage(event.sender.id, {"text" : "Sorry I don't understand what do you want"});
 						}
 					
 					}
