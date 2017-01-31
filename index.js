@@ -60,6 +60,7 @@ app.post('/webhook', function (req, res) {
 			}
 			if(event.message.quick_replies){
 				if(event.message.quick_replies.payload == 'REGISTER_PAYLOAD'){
+					getResponseToUser(event.message.quick_replies.payload, event.sender.id, event.recipient.id)
 					sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
 				}else{
 					firstMessage(event.sender.id);
@@ -81,6 +82,33 @@ app.post('/webhook', function (req, res) {
     res.sendStatus(200);
 });
 
+
+function getResponseToUser(request_key, recipient, sender){
+		
+				var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+sender+'&request_key='+request_key;
+				
+				request({
+					url: url,
+					method: 'GET'
+				}, function(error, response, body) {
+					if (error) {
+						console.log('Error sending message: ', error);
+					} else if (response.body.error) {
+						console.log('Error: ', response.body.error);
+					}else{
+						var obj = JSON.parse(body);
+						console.log('json: ', obj);
+						var code = obj.code;
+						if(code == 1){
+								sendMessage(recipient, obj.data.jsonData);
+						}
+						if(code == 0){
+								sendMessage(recipient, {"text" : "Sorry I don't understand what do you want"});
+						}
+					
+					}
+				});
+}
 
 app.get('/send', function(req, res){
 	 //var userId = location.search.split('user_id=')[0]
