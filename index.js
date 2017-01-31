@@ -61,7 +61,7 @@ app.post('/webhook', function (req, res) {
 			if(event.message.quick_replies){
 				if(event.message.quick_replies.payload == 'REGISTER_PAYLOAD'){
 					getResponseToUser(event.message.quick_replies.payload, event.sender.id, event.recipient.id)
-					sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
+					//sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
 				}else{
 					firstMessage(event.sender.id);
 				}
