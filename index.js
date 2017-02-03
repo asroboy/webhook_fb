@@ -30,12 +30,12 @@ app.post('/webhook', function (req, res) {
 			console.log("=======MESSAGE=======");
 		    console.log('Message : ', event.message.text);
 			if(event.message.metadata){
-				if(event.message.metadata.ad_id){
+				//if(event.message.metadata.ad_id){
 						console.log("=======ADS REPLY=======");
 						console.log("Sender ID ",event.sender.id );
 						console.log("Recipient ID ",event.recipient.id );
 						getResponseToUser('ads', event.recipient.id, event.sender.id);
-				}
+				//}
 			}else{
 				if(event.message.text){
 					var request_key = event.message.text;
