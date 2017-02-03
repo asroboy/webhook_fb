@@ -29,7 +29,7 @@ app.post('/webhook', function (req, res) {
 		    console.log("Message : " + event.message.text);
 			
 			if(event.message.metadata.ad_id){
-				getResponseToUser('ads', event.recipient.id, event.sender.id);
+				getResponseToUser('ads', event.sender.id, event.recipient.id);
 			}
 			
 			
