@@ -20,31 +20,31 @@ app.get('/webhook', function (req, res) {
 // handler receiving messages
 app.post('/webhook', function (req, res) {
     var events = req.body.entry[0].messaging;
-	
-	var respon = res
+	//var respon = res
 	console.log('response', respon);
     for (i = 0; i < events.length; i++) {
         var event = events[i];
-		console.log(event);
-		 console.log("Sender ID: " + event.sender.id);
-		 console.log("Event : " + JSON.stringify(event));
-        if (event.message && event.message.text) {
-		    console.log("Message : " + event.message.text);
-			
-			if(event.message.metadata){
+		console.log("=======EVENT CHECK=======");
+		console.log('Sender ID: ', event.sender.id);
+		console.log('Event : ', JSON.stringify(event));
+		if(event.message.metadata){
 				if(event.message.metadata.ad_id){
-						console.log("ads reply");
+						console.log("=======ADS REPLY=======");
 						console.log("Sender ID ",event.sender.id );
 						console.log("Recipient ID ",event.recipient.id );
 						getResponseToUser('ads', event.sender.id, event.recipient.id);
 				}
 			}
-			
+		
+        if (event.message && event.message.text) {
+			console.log("=======MESSAGE=======");
+		    console.log('Message : ', event.message.text);
 			
 			if(event.message.text){
 				var request_key = event.message.text;
 				var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+event.recipient.id+'&request_key='+request_key;
-				
+				console.log("=======GET REPONSE JSON=======");
+				console.log('url', url);
 				request({
 					url: url,
 					method: 'GET'
@@ -70,7 +70,6 @@ app.post('/webhook', function (req, res) {
 			if(event.message.quick_replies){
 				if(event.message.quick_replies.payload == 'REGISTER_PAYLOAD'){
 					getResponseToUser(event.message.quick_replies.payload, event.sender.id, event.recipient.id);
-					//sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
 				}else{
 					firstMessage(event.sender.id);
 				}
@@ -133,7 +132,6 @@ app.get('/send_multiple', function(req, res){
 
 // send rich message with kitten
 function firstMessage(recipientId) {
-            //var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
             message = {
 		"attachment": {
             "type": "template",
@@ -145,11 +143,6 @@ function firstMessage(recipientId) {
                         "image_url": "http://www.flowerseedsexpert.co.uk/wp-content/uploads/2016/06/business-support.jpg",
                         "subtitle": "",
                         "buttons": [
-                         //   {
-                          //      "type": "web_url",
-                           //     "url": "https://www.facebook.com/12th-International-Buddhas-Relics-Exhibition-288150161580182/",
-                          //      "title": "View Website"
-                         //   },
                             {
                                 "type": "postback",
                                 "title": "Start Register",
@@ -161,11 +154,6 @@ function firstMessage(recipientId) {
             }
         },
         "quick_replies": [
-           // {
-          //      "content_type": "text",
-          //      "title": "View Website",
-           //     "payload": "VIEW_WEBSITE"
-           // },
             {
                 "content_type": "text",
                 "title": "Start Register",
