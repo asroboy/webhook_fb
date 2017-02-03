@@ -31,13 +31,13 @@ app.post('/webhook', function (req, res) {
 		    console.log('Message : ', event.message.text);
 			if(event.message.metadata){
 				var jsonMeta = JSON.parse(event.message.metadata);
-				console.log('json meta', jsonMeta);
-				if(jsonMeta.ad_id){
+				//console.log('json meta', jsonMeta);
+				//if(jsonMeta.ad_id){
 						console.log("=======ADS REPLY=======");
 						console.log("Sender ID ",event.sender.id );
 						console.log("Recipient ID ",event.recipient.id );
 						getResponseToUser('ads', event.recipient.id, event.sender.id);
-				}
+				//}
 			}else{
 				if(event.message.text){
 					var request_key = event.message.text;
