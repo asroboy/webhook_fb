@@ -25,46 +25,47 @@ app.post('/webhook', function (req, res) {
 		console.log("=======EVENT CHECK=======");
 		console.log('Sender ID: ', event.sender.id);
 		console.log('Event : ', JSON.stringify(event));
-		if(event.message.metadata){
+		
+        if (event.message && event.message.text) {
+			console.log("=======MESSAGE=======");
+		    console.log('Message : ', event.message.text);
+			if(event.message.metadata){
 				if(event.message.metadata.ad_id){
 						console.log("=======ADS REPLY=======");
 						console.log("Sender ID ",event.sender.id );
 						console.log("Recipient ID ",event.recipient.id );
 						getResponseToUser('ads', event.sender.id, event.recipient.id);
 				}
+			}else{
+				if(event.message.text){
+					var request_key = event.message.text;
+					var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+event.recipient.id+'&request_key='+request_key;
+					console.log("=======GET REPONSE JSON=======");
+					console.log('url', url);
+					request({
+						url: url,
+						method: 'GET'
+					}, function(error, response, body) {
+						if (error) {
+							console.log('Error sending message: ', error);
+						} else if (response.body.error) {
+							console.log('Error: ', response.body.error);
+						}else{
+							var obj = JSON.parse(body);
+							console.log('json: ', obj);
+							var code = obj.code;
+							if(code == 1){
+									sendMessage(event.sender.id, obj.data.jsonData);
+							}
+							if(code == 0){
+									sendMessage(event.sender.id, {"text" : "Sorry I don't understand what do you want"});
+							}
+						
+						}
+					});
+				}
 			}
-		
-        if (event.message && event.message.text) {
-			console.log("=======MESSAGE=======");
-		    console.log('Message : ', event.message.text);
 			
-			if(event.message.text){
-				var request_key = event.message.text;
-				var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+event.recipient.id+'&request_key='+request_key;
-				console.log("=======GET REPONSE JSON=======");
-				console.log('url', url);
-				request({
-					url: url,
-					method: 'GET'
-				}, function(error, response, body) {
-					if (error) {
-						console.log('Error sending message: ', error);
-					} else if (response.body.error) {
-						console.log('Error: ', response.body.error);
-					}else{
-						var obj = JSON.parse(body);
-						console.log('json: ', obj);
-						var code = obj.code;
-						if(code == 1){
-								sendMessage(event.sender.id, obj.data.jsonData);
-						}
-						if(code == 0){
-								sendMessage(event.sender.id, {"text" : "Sorry I don't understand what do you want"});
-						}
-					
-					}
-				});
-			}
 			if(event.message.quick_replies){
 				if(event.message.quick_replies.payload == 'REGISTER_PAYLOAD'){
 					getResponseToUser(event.message.quick_replies.payload, event.sender.id, event.recipient.id);
