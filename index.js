@@ -30,6 +30,9 @@ app.post('/webhook', function (req, res) {
 			
 			if(event.message.metadata){
 				if(event.message.metadata.ad_id){
+						console.log("ads reply");
+						console.log("Sender ID ",event.sender.id );
+						console.log("Recipient ID ",event.recipient.id );
 						getResponseToUser('ads', event.sender.id, event.recipient.id);
 				}
 			}
@@ -72,15 +75,7 @@ app.post('/webhook', function (req, res) {
         }
 		
 		if(event.postback){
-			//firstMessage(event.sender.id);
-			//if(event.postback.payload == 'Start Chat'){
-				//firstMessage(event.sender.id);
-			//}	
-			
-			//if(event.postback.payload == 'REGISTER_PAYLOAD'){
 				getResponseToUser(event.postback.payload, event.sender.id, event.recipient.id);
-					//sendMessage(event.sender.id, {text:"Hi, Thanks for join with us"});
-			//}	
 		}
     }
     res.sendStatus(200);
