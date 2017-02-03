@@ -88,7 +88,7 @@ app.post('/webhook', function (req, res) {
 function getResponseToUser(request_key, recipient, sender){
 		
 				var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+sender+'&request_key='+request_key;
-				
+				consoole.log('url', url);
 				request({
 					url: url,
 					method: 'GET'
