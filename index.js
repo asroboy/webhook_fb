@@ -28,8 +28,10 @@ app.post('/webhook', function (req, res) {
         if (event.message && event.message.text) {
 		    console.log("Message : " + event.message.text);
 			
-			if(event.message.metadata.ad_id){
-				getResponseToUser('ads', event.sender.id, event.recipient.id);
+			if(event.message.metadata){
+				if(event.message.metadata.ad_id){
+						getResponseToUser('ads', event.sender.id, event.recipient.id);
+				}
 			}
 			
 			
