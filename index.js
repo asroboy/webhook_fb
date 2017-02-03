@@ -34,7 +34,7 @@ app.post('/webhook', function (req, res) {
 						console.log("=======ADS REPLY=======");
 						console.log("Sender ID ",event.sender.id );
 						console.log("Recipient ID ",event.recipient.id );
-						getResponseToUser('ads', event.sender.id, event.recipient.id);
+						getResponseToUser('ads', event.recipient.id, event.sender.id);
 				}
 			}else{
 				if(event.message.text){
