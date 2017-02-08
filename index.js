@@ -36,7 +36,9 @@ app.post('/webhook', function (req, res) {
 						console.log("=======ADS REPLY=======");
 						console.log("Sender ID ",event.sender.id );
 						console.log("Recipient ID ",event.recipient.id );
-						getResponseToUser('ads', event.recipient.id, event.sender.id);
+						//getResponseToUser('ads', event.recipient.id, event.sender.id);
+						//sendMessage(event.sender.id, obj.data.jsonData);
+						firstMessage(event.recipient.id); 
 				//}
 			}else{
 				if(event.message.text){
@@ -57,10 +59,12 @@ app.post('/webhook', function (req, res) {
 							console.log('json: ', obj);
 							var code = obj.code;
 							if(code == 1){
-									sendMessage(event.sender.id, obj.data.jsonData);
+									var token = obj.messenger_data.pageAccessToken;
+									sendMessage(event.sender.id, obj.data.jsonData, token);
 							}
 							if(code == 0){
-									sendMessage(event.sender.id, {"text" : "Sorry I don't understand what do you want"});
+									var token = obj.messenger_data.pageAccessToken;
+									sendMessage(event.sender.id, {"text" : "Sorry I don't understand what do you want"}, token);
 							}
 						
 						}
@@ -72,6 +76,7 @@ app.post('/webhook', function (req, res) {
 				if(event.message.quick_replies.payload == 'REGISTER_PAYLOAD'){
 					getResponseToUser(event.message.quick_replies.payload, event.sender.id, event.recipient.id);
 				}else{
+					var token = "";
 					firstMessage(event.sender.id);
 				}
 			}
@@ -102,10 +107,12 @@ function getResponseToUser(request_key, recipient, sender){
 						console.log('json: ', obj);
 						var code = obj.code;
 						if(code == 1){
-								sendMessage(recipient, obj.data.jsonData);
+								var token = obj.messenger_data.pageAccessToken;
+								sendMessage(recipient, obj.data.jsonData, token);
 						}
 						if(code == 0){
-								sendMessage(recipient, {"text" : "Sorry I don't understand what do you want"});
+								var token = obj.messenger_data.pageAccessToken;
+								sendMessage(recipient, {"text" : "Sorry I don't understand what do you want"}, token);
 						}
 					
 					}
@@ -116,7 +123,8 @@ app.get('/send', function(req, res){
 	 //var userId = location.search.split('user_id=')[0]
 		var recipientId = req.query.user_id; // $_GET["id"]
 		//'1193481570735913'
-		sendMessage(recipientId, {text: "Echo: Selamat Datang " + recipientId});
+		var token = "";
+		sendMessage(recipientId, {text: "Echo: Selamat Datang " + recipientId}, token);
 		res.send('OK ' + recipientId);
 });
 
@@ -124,8 +132,9 @@ app.get('/send_multiple', function(req, res){
 	 //var userId = location.search.split('user_id=')[0]
 		var recipientIds = req.query.user_ids.split(','); // $_GET["id"]
 		//'1193481570735913'
+		var token = "";
 		for (i = 0; i < recipientIds.length; i++) { 
-			sendMessage(recipientIds[i], {text: "Echo: Selamat Datang " + recipientIds[i]});
+			sendMessage(recipientIds[i], {text: "Echo: Selamat Datang " + recipientIds[i]}, token);
 		}
 		res.send('OK, Sent to :' + req.query.user_ids);
 });
@@ -166,11 +175,11 @@ function firstMessage(recipientId) {
 };
 
 // generic function sending messages
-function sendMessage(recipientId, message) {
-	//console.log(process);
+function sendMessage(recipientId, message, token) {
+	//console.log(process); process.env.PAGE_ACCESS_TOKEN
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
+        qs: {access_token: token},
         method: 'POST',
         json: {
             recipient: {id: recipientId},
@@ -186,11 +195,11 @@ function sendMessage(recipientId, message) {
 };
 
 // generic function sending messages
-function sendMessagePostback(recipientId, message) {
-	//console.log(process);
+function sendMessagePostback(recipientId, message, token) {
+	//console.log(process); process.env.PAGE_ACCESS_TOKEN
     request({
         url: 'https://graph.facebook.com/v2.6/me/messaging_postbacks',
-        qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
+        qs: {access_token: token},
         method: 'POST',
         json: {
             recipient: {id: recipientId},
