@@ -22,19 +22,19 @@ app.post('/webhook', function (req, res) {
     var events = req.body.entry[0].messaging;
     for (i = 0; i < events.length; i++) {
         var event = events[i];
-		console.log("=======EVENT CHECK=======");
-		console.log('Sender ID: ', event.sender.id);
-		console.log('Event : ', JSON.stringify(event));
+		//console.log("=======EVENT CHECK=======");
+		//console.log('Sender ID: ', event.sender.id);
+		//console.log('Event : ', JSON.stringify(event));
 		
         if (event.message && event.message.text) {
-			console.log("=======MESSAGE=======");
-		    console.log('Message : ', event.message.text);
+			//console.log("=======MESSAGE=======");
+		    //console.log('Message : ', event.message.text);
 			if(event.message.quick_replies){
-				if(event.message.quick_replies.payload == 'REGISTER_PAYLOAD'){
+				console.log("=======QUICK REPLY=======");
+				if(event.message.quick_replies.payload === 'REGISTER_PAYLOAD'){
 					getResponseToUser(event.message.quick_replies.payload, event.sender.id, event.recipient.id);
 				}else if(event.message.quick_replies.payload){
 					//var token = "";
-
 					getToken(event.message.quick_replies.payload,event.sender.id, event.recipient.id)
 					//firstMessage(event.sender.id);
 				}
@@ -44,8 +44,6 @@ app.post('/webhook', function (req, res) {
 						console.log('json meta', jsonMeta);
 						if(jsonMeta.ad_id){
 								console.log("=======ADS REPLY=======");
-								console.log("Sender ID ",event.sender.id );
-								console.log("Recipient ID ",event.recipient.id );
 								getAdsResponseToUser(event.recipient.id, event.sender.id, jsonMeta.ad_id)
 						}
 					}else{
