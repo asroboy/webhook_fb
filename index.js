@@ -29,13 +29,13 @@ app.post('/webhook', function (req, res) {
         if (event.message && event.message.text) {
 			//console.log("=======MESSAGE=======");
 		    //console.log('Message : ', event.message.text);
-			if(event.message.quick_replies){
+			if(event.message.quick_reply){
 				console.log("=======QUICK REPLY=======");
-				if(event.message.quick_replies.payload === 'REGISTER_PAYLOAD'){
-					getResponseToUser(event.message.quick_replies.payload, event.sender.id, event.recipient.id);
-				}else if(event.message.quick_replies.payload){
+				if(event.message.quick_reply.payload === 'REGISTER_PAYLOAD'){
+					getResponseToUser(event.message.quick_reply.payload, event.sender.id, event.recipient.id);
+				}else if(event.message.quick_reply.payload){
 					//var token = "";
-					getToken(event.message.quick_replies.payload,event.sender.id, event.recipient.id)
+					getToken(event.message.quick_reply.payload,event.sender.id, event.recipient.id)
 					//firstMessage(event.sender.id);
 				}
 			}else{
