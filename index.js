@@ -76,9 +76,11 @@ app.post('/webhook', function (req, res) {
 			if(event.message.quick_replies){
 				if(event.message.quick_replies.payload == 'REGISTER_PAYLOAD'){
 					getResponseToUser(event.message.quick_replies.payload, event.sender.id, event.recipient.id);
-				}else{
-					var token = "";
-					firstMessage(event.sender.id);
+				}else if(event.message.quick_replies.payload){
+					//var token = "";
+
+					getToken(event.message.quick_replies.payload,event.sender.id, event.recipient.id)
+					//firstMessage(event.sender.id);
 				}
 			}
         }
@@ -90,6 +92,34 @@ app.post('/webhook', function (req, res) {
     res.sendStatus(200);
 });
 
+
+function getToken(m_payload, sender, recipient){
+	var url = 'http://halfcup.com/social_rebates_system/api/getPageMessengerToken?messenger_id='+sender;
+				console.log('url', url);
+				request({
+					url: url,
+					method: 'GET'
+				}, function(error, response, body) {
+					if (error) {
+						console.log('Error sending message: ', error);
+					} else if (response.body.error) {
+						console.log('Error: ', response.body.error);
+					}else{
+						var obj = JSON.parse(body);
+						console.log('json: ', obj);
+						var code = obj.code;
+						if(code == 1){
+								var token = obj.messenger_data.pageAccessToken;
+								var message ={"text":m_payload};
+								sendMessage(recipient, message , token);
+						}
+						if(code == 0){
+								console.log('Can\'t send message, TOKEN NOT FOUND, Get page access token from facebook developer page and register to http://halfcup.com/social_rebates_system');
+						}
+					
+					}
+				});
+}
 
 function getAdsResponseToUser(recipient, sender, ads_id){
 		
