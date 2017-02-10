@@ -22,9 +22,9 @@ app.post('/webhook', function (req, res) {
     var events = req.body.entry[0].messaging;
     for (i = 0; i < events.length; i++) {
         var event = events[i];
-		//console.log("=======EVENT CHECK=======");
+		console.log("=======EVENT CHECK=======");
 		//console.log('Sender ID: ', event.sender.id);
-		//console.log('Event : ', JSON.stringify(event));
+		console.log('Event : ', JSON.stringify(event));
 		
         if (event.message && event.message.text) {
 			//console.log("=======MESSAGE=======");
