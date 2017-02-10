@@ -31,7 +31,12 @@ app.post('/webhook', function (req, res) {
 		    //console.log('Message : ', event.message.text);
 			if(event.message.quick_reply){
 				console.log("=======QUICK REPLY=======");
+				var find_prefix = event.message.quick_reply.payload.split('_');
+				var payload_prefix = find_prefix[0];
+				console.log("payload_prefix", payload_prefix);
 				if(event.message.quick_reply.payload === 'REGISTER_PAYLOAD'){
+					getResponseToUser(event.message.quick_reply.payload, event.sender.id, event.recipient.id);
+				}else if(payload_prefix==='DBBOTPAYLOAD'){
 					getResponseToUser(event.message.quick_reply.payload, event.sender.id, event.recipient.id);
 				}else if(event.message.quick_reply.payload){
 					//var token = "";
