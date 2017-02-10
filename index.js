@@ -29,50 +29,6 @@ app.post('/webhook', function (req, res) {
         if (event.message && event.message.text) {
 			console.log("=======MESSAGE=======");
 		    console.log('Message : ', event.message.text);
-			if(event.message.metadata){
-				var jsonMeta = JSON.parse(event.message.metadata);
-				console.log('json meta', jsonMeta);
-				if(jsonMeta.ad_id){
-						console.log("=======ADS REPLY=======");
-						console.log("Sender ID ",event.sender.id );
-						console.log("Recipient ID ",event.recipient.id );
-						//getResponseToUser('ads', event.recipient.id, event.sender.id);
-						//sendMessage(event.sender.id, obj.data.jsonData);
-						//firstMessage(event.recipient.id); 
-						getAdsResponseToUser(event.recipient.id, event.sender.id, jsonMeta.ad_id)
-				}
-			}else{
-				if(event.message.text){
-					var request_key = event.message.text;
-					var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+event.recipient.id+'&request_key='+request_key;
-					console.log("=======GET REPONSE JSON=======");
-					console.log('url', url);
-					request({
-						url: url,
-						method: 'GET'
-					}, function(error, response, body) {
-						if (error) {
-							console.log('Error sending message: ', error);
-						} else if (response.body.error) {
-							console.log('Error: ', response.body.error);
-						}else{
-							var obj = JSON.parse(body);
-							console.log('json: ', obj);
-							var code = obj.code;
-							if(code == 1){
-									var token = obj.messenger_data.pageAccessToken;
-									sendMessage(event.sender.id, obj.data.jsonData, token);
-							}
-							if(code == 0){
-									var token = obj.messenger_data.pageAccessToken;
-									sendMessage(event.sender.id, {"text" : "Sorry I don't understand what do you want"}, token);
-							}
-						
-						}
-					});
-				}
-			}
-			
 			if(event.message.quick_replies){
 				if(event.message.quick_replies.payload == 'REGISTER_PAYLOAD'){
 					getResponseToUser(event.message.quick_replies.payload, event.sender.id, event.recipient.id);
@@ -82,7 +38,55 @@ app.post('/webhook', function (req, res) {
 					getToken(event.message.quick_replies.payload,event.sender.id, event.recipient.id)
 					//firstMessage(event.sender.id);
 				}
+			}else{
+					if(event.message.metadata){
+						var jsonMeta = JSON.parse(event.message.metadata);
+						console.log('json meta', jsonMeta);
+						if(jsonMeta.ad_id){
+								console.log("=======ADS REPLY=======");
+								console.log("Sender ID ",event.sender.id );
+								console.log("Recipient ID ",event.recipient.id );
+								getAdsResponseToUser(event.recipient.id, event.sender.id, jsonMeta.ad_id)
+						}
+					}else{
+						if(event.message.text){
+							var request_key = event.message.text;
+							var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+event.recipient.id+'&request_key='+request_key;
+							console.log("=======GET REPONSE JSON=======");
+							console.log('url', url);
+							request({
+								url: url,
+								method: 'GET'
+							}, function(error, response, body) {
+								if (error) {
+									console.log('Error sending message: ', error);
+								} else if (response.body.error) {
+									console.log('Error: ', response.body.error);
+								}else{
+									var obj = JSON.parse(body);
+									console.log('json: ', obj);
+									var code = obj.code;
+									if(code == 1){
+											var token = obj.messenger_data.pageAccessToken;
+											sendMessage(event.sender.id, obj.data.jsonData, token);
+									}
+									if(code == 0){
+											var token = obj.messenger_data.pageAccessToken;
+											sendMessage(event.sender.id, {"text" : "Sorry I don't understand what do you want"}, token);
+									}
+								
+								}
+							});
+						}
+					}
+				
+				
 			}
+			
+			
+			
+			
+			
         }
 		
 		if(event.postback){
