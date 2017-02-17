@@ -37,7 +37,7 @@ app.post('/webhook', function (req, res) {
 				if(event.message.quick_reply.payload === 'REGISTER_PAYLOAD'){
 					getResponseToUser(event.message.quick_reply.payload, event.sender.id, event.recipient.id);
 				}else if(payload_prefix==='DEVELOPER'){
-					getResponseToUser(event.message.text, event.sender.id, event.recipient.id);
+					getResponseToUser(event.message.quick_reply.payload, event.sender.id, event.recipient.id);
 				}else if(event.message.quick_reply.payload){
 					//var token = "";
 					getToken(event.message.quick_reply.payload,event.recipient.id, event.sender.id)
@@ -82,13 +82,7 @@ app.post('/webhook', function (req, res) {
 							});
 						}
 					}
-				
-				
 			}
-			
-			
-			
-			
 			
         }
 		
@@ -99,6 +93,34 @@ app.post('/webhook', function (req, res) {
     res.sendStatus(200);
 });
 
+
+function getUserInfo(user_msg_id, page_token){
+	var url = 'https://graph.facebook.com/v2.6/'+user_msg_id+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+ page_token;
+				console.log('url', url);
+				request({
+					url: url,
+					method: 'GET'
+				}, function(error, response, body) {
+					if (error) {
+						console.log('Error sending message: ', error);
+					} else if (response.body.error) {
+						console.log('Error: ', response.body.error);
+					}else{
+						var obj = JSON.parse(body);
+						console.log('json: ', obj);
+						var code = obj.code;
+						if(code == 1){
+								var token = obj.messenger_data.pageAccessToken;
+								var message ={"text":m_payload};
+								sendMessage(recipient, message , token);
+						}
+						if(code == 0){
+								console.log('TOKEN NOT FOUND, Get page access token from facebook developer page and register to http://halfcup.com/social_rebates_system');
+						}
+					
+					}
+				});
+}
 
 function getToken(m_payload, sender, recipient){
 	var url = 'http://halfcup.com/social_rebates_system/api/getPageMessengerToken?messenger_id='+sender;
@@ -150,7 +172,7 @@ function getAdsResponseToUser(recipient, sender, ads_id){
 						}
 						if(code == 0){
 								var token = obj.messenger_data.pageAccessToken;
-								sendMessage(recipient, {"text" : "Sorry I don't understand what do you want"}, token);
+								//sendMessage(recipient, {"text" : "Sorry I don't understand what do you want"}, token);
 						}
 					
 					}
@@ -180,7 +202,7 @@ function getResponseToUser(request_key, recipient, sender){
 						}
 						if(code == 0){
 								var token = obj.messenger_data.pageAccessToken;
-								sendMessage(recipient, {"text" : "Sorry I don't understand what do you want"}, token);
+								//sendMessage(recipient, {"text" : "Sorry I don't understand what do you want"}, token);
 						}
 					
 					}
