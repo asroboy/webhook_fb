@@ -40,8 +40,7 @@ app.post('/webhook', function (req, res) {
 					getResponseToUser(event.message.quick_reply.payload, event.sender.id, event.recipient.id);
 				}else if(event.message.quick_reply.payload){
 					//var token = "";
-					getResponseToUser(event.message.quick_reply.payload, event.sender.id, event.recipient.id);
-					//getToken(event.message.quick_reply.payload,event.recipient.id, event.sender.id)
+					getToken(event.message.quick_reply.payload,event.recipient.id, event.sender.id)
 					//firstMessage(event.sender.id);
 				}
 			}else{
