@@ -54,7 +54,7 @@ app.post('/webhook', function (req, res) {
 					}else{
 						if(event.message.text){
 							var request_key = event.message.text;
-							var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+event.recipient.id+'&request_key='+request_key;
+							var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+event.recipient.id+'&request_key='+request_key+'&messenger_uid=' + event.sender.id;
 							console.log("=======GET REPONSE JSON=======");
 							console.log('url', url);
 							request({
@@ -117,13 +117,12 @@ function getUserInfo(user_msg_id, page_token){
 						if(code == 0){
 								console.log('TOKEN NOT FOUND, Get page access token from facebook developer page and register to http://halfcup.com/social_rebates_system');
 						}
-					
 					}
 				});
 }
 
 function getToken(m_payload, sender, recipient){
-	var url = 'http://halfcup.com/social_rebates_system/api/getPageMessengerToken?messenger_id='+sender;
+	var url = 'http://halfcup.com/social_rebates_system/api/getPageMessengerToken?messenger_id='+sender+'&messenger_uid=' + recipient;
 				console.log('url', url);
 				request({
 					url: url,
@@ -152,7 +151,7 @@ function getToken(m_payload, sender, recipient){
 
 function getAdsResponseToUser(recipient, sender, ads_id){
 		
-				var url = 'http://halfcup.com/social_rebates_system/api/getBotAdsResponseMessage?messenger_id='+sender+'&ads_id='+ads_id;
+				var url = 'http://halfcup.com/social_rebates_system/api/getBotAdsResponseMessage?messenger_id='+sender+'&ads_id='+ads_id+'&messenger_uid=' + recipient;
 				console.log('url', url);
 				request({
 					url: url,
@@ -182,7 +181,7 @@ function getAdsResponseToUser(recipient, sender, ads_id){
 
 function getResponseToUser(request_key, recipient, sender){
 		
-				var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+sender+'&request_key='+request_key;
+				var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+sender+'&request_key='+request_key+'&messenger_uid=' + recipient;
 				console.log('url', url);
 				request({
 					url: url,
