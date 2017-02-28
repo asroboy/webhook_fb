@@ -201,6 +201,7 @@ function getResponseToUser(request_key, recipient, sender){
 						}
 						if(code == 0){
 								var token = obj.messenger_data.pageAccessToken;
+								getResponseToUserWithNoKey(recipient, sender)
 								//sendMessage(recipient, {"text" : "Sorry I don't understand what do you want"}, token);
 						}
 					
