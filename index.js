@@ -208,6 +208,35 @@ function getResponseToUser(request_key, recipient, sender){
 				});
 }
 
+function getResponseToUserWithNoKey( recipient, sender){
+		
+				var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+sender+'&request_key='+sender+'&messenger_uid=' + recipient;
+				console.log('url', url);
+				request({
+					url: url,
+					method: 'GET'
+				}, function(error, response, body) {
+					if (error) {
+						console.log('Error sending message: ', error);
+					} else if (response.body.error) {
+						console.log('Error: ', response.body.error);
+					}else{
+						var obj = JSON.parse(body);
+						console.log('json: ', obj);
+						var code = obj.code;
+						if(code == 1){
+								var token = obj.messenger_data.pageAccessToken;
+								sendMessage(recipient, obj.data.jsonData, token);
+						}
+						if(code == 0){
+								var token = obj.messenger_data.pageAccessToken;
+								//sendMessage(recipient, {"text" : "Sorry I don't understand what do you want"}, token);
+						}
+					
+					}
+				});
+}
+
 app.get('/send', function(req, res){
 	 //var userId = location.search.split('user_id=')[0]
 		var recipientId = req.query.user_id; // $_GET["id"]
