@@ -75,6 +75,7 @@ app.post('/webhook', function (req, res) {
 									}
 									if(code == 0){
 											var token = obj.messenger_data.pageAccessToken;
+											getResponseToUserWithNoKey(recipient, sender);
 											//sendMessage(event.sender.id, {"text" : "Sorry I don't understand what do you want"}, token);
 									}
 								
@@ -201,7 +202,7 @@ function getResponseToUser(request_key, recipient, sender){
 						}
 						if(code == 0){
 								var token = obj.messenger_data.pageAccessToken;
-								getResponseToUserWithNoKey(recipient, sender)
+								getResponseToUserWithNoKey(recipient, sender);
 								//sendMessage(recipient, {"text" : "Sorry I don't understand what do you want"}, token);
 						}
 					
