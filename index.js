@@ -87,8 +87,8 @@ app.post('/webhook', function (req, res) {
 			
         }
 		if (event.message && event.message.attachments){
-			var arr = JSON.parse(event.message.attachments);
-			getResponseToUser(arr[0].payload.sticker_id, event.sender.id, event.recipient.id);
+			//var arr = JSON.parse(event.message.attachments);
+			getResponseToUser(event.message.attachments[0].payload.sticker_id, event.sender.id, event.recipient.id);
 		}
 		if(event.postback){
 				getResponseToUser(event.postback.payload, event.sender.id, event.recipient.id);
