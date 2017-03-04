@@ -35,13 +35,16 @@ app.post('/webhook', function (req, res) {
 				var payload_prefix = find_prefix[0];
 				console.log("payload_prefix", payload_prefix);
 				if(event.message.quick_reply.payload === 'REGISTER_PAYLOAD'){
+					console.log("Payload " , event.message.quick_reply.payload);
 					getResponseToUser(event.message.quick_reply.payload, event.sender.id, event.recipient.id);
 				}else if(payload_prefix==='DEVELOPER'){
+					console.log("Payload " , event.message.quick_reply.payload);
 					getResponseToUser(event.message.quick_reply.payload, event.sender.id, event.recipient.id);
 				}else if(event.message.quick_reply.payload){
+					console.log("Payload " , event.message.quick_reply.payload);
 					//var token = "";
+					//this is to handle print PAYLOAD to msgr room
 					getToken(event.message.quick_reply.payload,event.recipient.id, event.sender.id)
-					//firstMessage(event.sender.id);
 				}
 			}else{
 					if(event.message.metadata){
@@ -54,43 +57,20 @@ app.post('/webhook', function (req, res) {
 					}else{
 						if(event.message.text){
 							var request_key = event.message.text;
-							var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+event.recipient.id+'&request_key='+request_key+'&messenger_uid=' + event.sender.id;
-							console.log("=======GET REPONSE JSON=======");
-							console.log('url', url);
-							request({
-								url: url,
-								method: 'GET'
-							}, function(error, response, body) {
-								if (error) {
-									console.log('Error sending message: ', error);
-								} else if (response.body.error) {
-									console.log('Error: ', response.body.error);
-								}else{
-									var obj = JSON.parse(body);
-									console.log('json: ', obj);
-									var code = obj.code;
-									if(code == 1){
-											var token = obj.messenger_data.pageAccessToken;
-											sendMessage(event.sender.id, obj.data.jsonData, token);
-									}
-									if(code == 0){
-											var token = obj.messenger_data.pageAccessToken;
-											getResponseToUserWithNoKey(event.sender.id, event.recipient.id);
-											//sendMessage(event.sender.id, {"text" : "Sorry I don't understand what do you want"}, token);
-									}
-								
-								}
-							});
+							console.log("===== event.message.text ========");
 						}
 					}
 			}
 			
         }
 		if (event.message && event.message.attachments){
+			console.log("===== event.message.text ========");
+			console.log("===== NOTHING HERE ========");
 			//var arr = JSON.parse(event.message.attachments);
 			//getResponseToUser(event.message.attachments[0].payload.sticker_id, event.sender.id, event.recipient.id);
 		}
 		if(event.postback){
+			console.log("===== event.postback ========");
 				getResponseToUser(event.postback.payload, event.sender.id, event.recipient.id);
 		}
     }
@@ -262,40 +242,6 @@ app.get('/send_multiple', function(req, res){
 		res.send('OK, Sent to :' + req.query.user_ids);
 });
 
-
-// send rich message with kitten
-function firstMessage(recipientId) {
-            message = {
-		"attachment": {
-            "type": "template",
-            "payload": {
-                "template_type": "generic",
-                "elements": [
-                    {
-                        "title": "Hi, Welcome. Start connect with us by click Start Register",
-                        "image_url": "http://www.flowerseedsexpert.co.uk/wp-content/uploads/2016/06/business-support.jpg",
-                        "subtitle": "",
-                        "buttons": [
-                            {
-                                "type": "postback",
-                                "title": "Start Register",
-                                "payload": "REGISTER_PAYLOAD"
-                            }
-                        ]
-                    }
-                ]
-            }
-        },
-        "quick_replies": [
-            {
-                "content_type": "text",
-                "title": "Start Register",
-                "payload": "REGISTER_PAYLOAD"
-            }
-        ]
-    };
-            sendMessage(recipientId, message);
-};
 
 // generic function sending messages
 function sendMessage(recipientId, message, token) {
