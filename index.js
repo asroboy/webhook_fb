@@ -24,7 +24,7 @@ app.post('/webhook', function (req, res) {
         var event = events[i];
 		console.log("=======EVENT CHECK=======");
 		//console.log('Sender ID: ', event.sender.id);
-		console.log('Event : ', JSON.stringify(event));
+		//console.log('Event : ', JSON.stringify(event));
 		
         if (event.message && event.message.text) {
 			//console.log("=======MESSAGE=======");
@@ -58,6 +58,7 @@ app.post('/webhook', function (req, res) {
 						if(event.message.text){
 							var request_key = event.message.text;
 							console.log("===== event.message.text ========");
+							getResponseToUser(request_key, event.sender.id, event.recipient.id);
 						}
 					}
 			}
