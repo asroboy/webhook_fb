@@ -66,8 +66,9 @@ app.post('/webhook', function (req, res) {
         }
 		
 		//{"recipient":{"id":"228431964255924"},"timestamp":1488613622152,"sender":{"id":"877390472364218"},"optin":{"ref":"PASS_THROUGH_PARAM"}}
-		if (event.optin && event.optin.ref){
+		if (event.optin){
 			var key = event.optin.ref;
+			getResponseToUser(key, event.sender.id, event.recipient.id);
 		}
 		if (event.message && event.message.attachments){
 			console.log("===== event.message.text ========");
