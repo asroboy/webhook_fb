@@ -69,7 +69,7 @@ app.post('/webhook', function (req, res) {
 		if (event.optin){
 			var key = event.optin.ref;
 			if(event.optin.user_ref){
-				getResponseToUser(key,event.optin.user_ref , event.recipient.id);
+				getResponseToUserRef(key, event.optin.user_ref , event.recipient.id);
 			}else{
 				getResponseToUser(key, event.sender.id, event.recipient.id);
 			}
@@ -204,7 +204,35 @@ function getResponseToUser(request_key, recipient, sender){
 					}
 				});
 }
-
+function getResponseToUserRef(request_key, recipient, sender){
+		
+				var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+sender+'&request_key='+request_key+'&messenger_uid=' + recipient;
+				console.log('url', url);
+				request({
+					url: url,
+					method: 'GET'
+				}, function(error, response, body) {
+					if (error) {
+						console.log('Error sending message: ', error);
+					} else if (response.body.error) {
+						console.log('Error: ', response.body.error);
+					}else{
+						var obj = JSON.parse(body);
+						console.log('json: ', obj);
+						var code = obj.code;
+						if(code == 1){
+								var token = obj.messenger_data.pageAccessToken;
+								sendMessageUserRef(recipient, obj.data.jsonData, token);
+						}
+						if(code == 0){
+								var token = obj.messenger_data.pageAccessToken;
+								//getResponseToUserWithNoKey(recipient, sender);
+								//sendMessage(recipient, {"text" : "Sorry I don't understand what do you want"}, token);
+						}
+					
+					}
+				});
+}
 function getResponseToUserWithNoKey( recipient, sender){
 		
 				var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+sender+'&request_key='+sender+'&messenger_uid=' + recipient;
@@ -274,7 +302,25 @@ function sendMessage(recipientId, message, token) {
         }
     });
 };
-
+/ generic function sending messages
+function sendMessageUserRef(recipientId, message, token) {
+	//console.log(process); process.env.PAGE_ACCESS_TOKEN
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token: token},
+        method: 'POST',
+        json: {
+            recipient: {user_ref: recipientId},
+            message: message,
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending message: ', error);
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error);
+        }
+    });
+};
 // generic function sending messages
 function sendMessagePostback(recipientId, message, token) {
 	//console.log(process); process.env.PAGE_ACCESS_TOKEN
