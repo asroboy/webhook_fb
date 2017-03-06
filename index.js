@@ -204,6 +204,7 @@ function getResponseToUser(request_key, recipient, sender){
 					}
 				});
 }
+
 function getResponseToUserRef(request_key, recipient, sender){
 		
 				var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+sender+'&request_key='+request_key+'&messenger_uid=' + recipient;
@@ -233,6 +234,7 @@ function getResponseToUserRef(request_key, recipient, sender){
 					}
 				});
 }
+
 function getResponseToUserWithNoKey( recipient, sender){
 		
 				var url = 'http://halfcup.com/social_rebates_system/api/getResponseMessage?messenger_id='+sender+'&request_key='+sender+'&messenger_uid=' + recipient;
@@ -302,7 +304,7 @@ function sendMessage(recipientId, message, token) {
         }
     });
 };
-/ generic function sending messages
+// generic function sending messages
 function sendMessageUserRef(recipientId, message, token) {
 	//console.log(process); process.env.PAGE_ACCESS_TOKEN
     request({
