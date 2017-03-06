@@ -26,7 +26,7 @@ app.post('/webhook', function (req, res) {
 		//console.log('Sender ID: ', event.sender.id);
 		console.log('Event : ', JSON.stringify(event));
 		
-        if (event.message && event.message.text && event.recipient) {
+        if (event.message && event.message.text && event.sender) {
 			//console.log("=======MESSAGE=======");
 		    //console.log('Message : ', event.message.text);
 			if(event.message.quick_reply){
@@ -69,7 +69,7 @@ app.post('/webhook', function (req, res) {
 		if (event.optin){
 			var key = event.optin.ref;
 			if(event.optin.user_ref){
-				getResponseToUser(key, event.sender.id, event.optin.user_ref);
+				getResponseToUser(key,event.optin.user_ref , event.recipient.id);
 			}else{
 				getResponseToUser(key, event.sender.id, event.recipient.id);
 			}
