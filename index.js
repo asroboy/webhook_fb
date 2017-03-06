@@ -26,7 +26,7 @@ app.post('/webhook', function (req, res) {
 		//console.log('Sender ID: ', event.sender.id);
 		console.log('Event : ', JSON.stringify(event));
 		
-        if (event.message && event.message.text && event.sender) {
+        if (event.message && event.message.text && event.recipient) {
 			//console.log("=======MESSAGE=======");
 		    //console.log('Message : ', event.message.text);
 			if(event.message.quick_reply){
