@@ -145,6 +145,8 @@ function getToken(m_payload, sender, recipient){
 				});
 }
 
+
+
 function getAdsResponseToUser(recipient, sender, ads_id){
 		
 				var url = 'http://halfcup.com/social_rebates_system/api/getBotAdsResponseMessage?messenger_id='+sender+'&ads_id='+ads_id+'&messenger_uid=' + recipient;
@@ -277,7 +279,7 @@ app.get('/send_multiple', function(req, res){
 	 //var userId = location.search.split('user_id=')[0]
 		var recipientIds = req.query.user_ids.split(','); // $_GET["id"]
 		//'1193481570735913'
-		var token = "";
+		var token = req.query.token;
 		for (i = 0; i < recipientIds.length; i++) { 
 			sendMessage(recipientIds[i], {text: "Echo: Selamat Datang " + recipientIds[i]}, token);
 		}
