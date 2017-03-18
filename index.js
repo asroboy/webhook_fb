@@ -278,10 +278,11 @@ app.get('/send', function(req, res){
 app.get('/send_multiple', function(req, res){
 	 //var userId = location.search.split('user_id=')[0]
 		var recipientIds = req.query.user_ids.split(','); // $_GET["id"]
+		var messages = req.query.message; // $_GET["id"]
 		//'1193481570735913'
 		var token = req.query.token;
 		for (i = 0; i < recipientIds.length; i++) { 
-			sendMessage(recipientIds[i], {text: "Echo: Selamat Datang " + recipientIds[i]}, token);
+			sendMessage(recipientIds[i], , token);
 		}
 		res.send('OK, Sent to :' + req.query.user_ids);
 });
