@@ -282,7 +282,7 @@ app.get('/send_multiple', function(req, res){
 		//'1193481570735913'
 		var token = req.query.token;
 		for (i = 0; i < recipientIds.length; i++) { 
-			sendMessage(recipientIds[i], , token);
+			sendMessage(recipientIds[i], messages, token);
 		}
 		res.send('OK, Sent to :' + req.query.user_ids);
 });
