@@ -40,6 +40,9 @@ app.post('/webhook', function (req, res) {
 				}else if(payload_prefix==='DEVELOPER'){
 					console.log("Payload " , event.message.quick_reply.payload);
 					getResponseToUser(event.message.quick_reply.payload, event.sender.id, event.recipient.id);
+				}else if(payload_prefix==='BOT'){
+					console.log("Payload " , event.message.quick_reply.payload);
+					getResponseToUser(event.message.quick_reply.payload, event.sender.id, event.recipient.id);
 				}else if(event.message.quick_reply.payload){
 					console.log("Payload " , event.message.quick_reply.payload);
 					//var token = "";
