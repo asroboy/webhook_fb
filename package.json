@@ -1,5 +1,5 @@
 {
-  "name": "testbot",
+  "name": "halfcup",
   "version": "1.0.0",
   "description": "1413110526",
   "main": "index.js",
@@ -10,8 +10,10 @@
   "author": "Ridho",
   "license": "ISC",
   "dependencies": {
+    "analytics-node": "^2.4.0",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "request": "^2.79.0"
-  }
+  },
+  "devDependencies": {}
 }
